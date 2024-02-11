@@ -5,6 +5,9 @@ public class TwoDice {
     private int diceNum1;
     private int diceNum2;
 
+    public TwoDice() {
+
+    }
     public void makeDieAsArray() {
         //make two die from an array
         //choose 2 random numbers
