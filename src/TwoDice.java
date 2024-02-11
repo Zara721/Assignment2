@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class TwoDice {
     private char[][] dice1 = {{' ', '＿', '＿', '＿', '＿', ' ', ' ', ' '},
             {'|', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
@@ -20,6 +22,10 @@ public class TwoDice {
         //make two die from an array
         //choose 2 random numbers
         //store those numbers as two arrays
+        Random random = new Random();
+        int num1 = random.nextInt(1, 7);
+        int num2 = random.nextInt(1, 7);
+        System.out.println(num1 + " " + num2);
     }
 
     public String toString() {

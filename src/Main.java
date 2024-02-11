@@ -20,6 +20,8 @@ public class Main {
                 {' ', '‾', '‾', '‾', '‾', '‾', '‾','‾',' '}};
 
         printDice(sixDice);
+        TwoDice twoDice = new TwoDice();
+        twoDice.makeDieAsArray();
     }
 
 
