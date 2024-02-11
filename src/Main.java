@@ -12,7 +12,6 @@ public class Main {
         //a ‘y’, ‘Y’, ‘n’ or ‘N’ then continue and assume the appropriate response. Otherwise, ask the user
         //for new input. For example, an entry of “Yo” is treated as “yes”, while an entry of “eyes” would
         //ask the user for new input.
-        System.out.println("Hello world!");
         char[][] oneDice = {{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
                 {'|', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', '|'},
                 {'|', ' ', ' ', ' ', 'o', ' ' , ' ', ' ', '|'},
@@ -60,6 +59,11 @@ public class Main {
         TwoDice twoDice = new TwoDice();
         twoDice.makeDieAsArray();
         System.out.println(twoDice.toString());
+        System.out.println(twoDice.getValue() + " " + twoDice.isDoubles()+ " "+ twoDice.hasSingleOne());
+        twoDice.roll();
+        System.out.println(twoDice.toString());
+        System.out.println(twoDice.getValue() + " " + twoDice.isDoubles()+ " "+ twoDice.hasSingleOne());
+
 //        System.out.println(twoDice.toString());
     }
 

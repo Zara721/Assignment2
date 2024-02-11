@@ -30,11 +30,10 @@ public class TwoDice {
         //choose 2 random numbers
         //store those numbers as two arrays
         Random random = new Random();
-        int num1 = random.nextInt(1, 7);
-        int num2 = random.nextInt(1, 7);
-        System.out.println(num1 + " " + num2);
-        addDotsToDice(num1, diceArray1);
-        addDotsToDice(num2, diceArray2);
+        diceNum1 = random.nextInt(1, 7);
+        diceNum2 = random.nextInt(1, 7);
+        addDotsToDice(diceNum1, diceArray1);
+        addDotsToDice(diceNum2, diceArray2);
 
     }
 
@@ -78,19 +77,37 @@ public class TwoDice {
     }
 
     public void roll() {
-        //method to roll the dice
+        diceArray1 = new char[][]{{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
+                {'|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                {'|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                {'|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                {' ', '‾', '‾', '‾', '‾', '‾', '‾', '‾', ' '}};
+        diceArray2 = new char[][]{{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
+                {'|', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', '|'},
+                {'|', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', '|'},
+                {'|', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', '|'},
+                {' ', '‾', '‾', '‾', '‾', '‾', '‾','‾',' '}};
+        makeDieAsArray();
+
     }
 
-    public void getValue() {
-        //return the total on the dice
+    public int getValue() {
+        return diceNum1 + diceNum2;
     }
 
-    public void isDoubles() {
-        //returns true exactly when the dice contains doubles and false otherwise.
+    public boolean isDoubles() {
+        if(diceNum1==diceNum2){
+            return true;
+        }
+        return false;
     }
 
-    public void hasSingleOne() {
-        //that returns true exactly when one of the dice has
-        //a one, but false when both dice have a one and false when neither dice has a one.
+    //that returns true exactly when one of the dice has
+    //a one, but false when both dice have a one and false when neither dice has a one.
+    public boolean hasSingleOne() {
+        if ((diceNum1 == 1 && diceNum2!=1)||(diceNum2 == 1 && diceNum1!=1)){
+            return true;
+        }
+        return false;
     }
 }
