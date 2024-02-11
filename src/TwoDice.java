@@ -96,7 +96,7 @@ public class TwoDice {
     }
 
     public boolean isDoubles() {
-        if(diceNum1==diceNum2){
+        if (diceNum1==diceNum2){
             return true;
         }
         return false;
