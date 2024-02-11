@@ -13,16 +13,16 @@ public class Main {
         //for new input. For example, an entry of “Yo” is treated as “yes”, while an entry of “eyes” would
         //ask the user for new input.
         System.out.println("Hello world!");
-        char[][] sixDice = {{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
-                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
-                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
-                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
+        char[][] oneDice = {{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
+                {'|', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', '|'},
+                {'|', ' ', ' ', ' ', 'o', ' ' , ' ', ' ', '|'},
+                {'|', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', '|'},
                 {' ', '‾', '‾', '‾', '‾', '‾', '‾','‾',' '}};
 
-        char[][] fourDice = {{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
-                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
+        char[][] two2Dice = {{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
+                {'|', ' ', 'o', ' ', ' ', ' ' , ' ', ' ', '|'},
                 {'|', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', '|'},
-                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
+                {'|', ' ', ' ', ' ', ' ', ' ' , 'o', ' ', '|'},
                 {' ', '‾', '‾', '‾', '‾', '‾', '‾','‾',' '}};
 
         char[][] threeDice = {{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
@@ -31,9 +31,32 @@ public class Main {
                 {'|', ' ', ' ', ' ', ' ', ' ' , 'o', ' ', '|'},
                 {' ', '‾', '‾', '‾', '‾', '‾', '‾','‾',' '}};
 
-        printDice(sixDice);
-        printDice(fourDice);
+        char[][] fourDice = {{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
+                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
+                {'|', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', '|'},
+                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
+                {' ', '‾', '‾', '‾', '‾', '‾', '‾','‾',' '}};
+
+        char[][] fiveDice = {{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
+                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
+                {'|', ' ', ' ', ' ', 'o', ' ' , ' ', ' ', '|'},
+                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
+                {' ', '‾', '‾', '‾', '‾', '‾', '‾','‾',' '}};
+
+        char[][] sixDice = {{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
+                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
+                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
+                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
+                {' ', '‾', '‾', '‾', '‾', '‾', '‾','‾',' '}};
+        printTwoDice(oneDice, sixDice);
+        printDice(oneDice);
+        printDice(two2Dice);
         printDice(threeDice);
+        printDice(fourDice);
+        printDice(fiveDice);
+        printDice(sixDice);
+
+
         TwoDice twoDice = new TwoDice();
         twoDice.makeDieAsArray();
     }
@@ -47,6 +70,21 @@ public class Main {
             System.out.println();
         }
     }
+
+    public static void printTwoDice(char[][] diceArray, char[][] diceArray2) {
+        for (int row = 0; row < diceArray.length; row++) {
+            for (int col = 0; col < 9; col++) {
+                System.out.print(diceArray[row][col]);
+            }
+            System.out.print("  ");
+            for (int col = 0; col < 9; col++) {
+                System.out.print(diceArray2[row][col]);
+            }
+            System.out.println();
+        }
+    }
+
+
 }
 
 
