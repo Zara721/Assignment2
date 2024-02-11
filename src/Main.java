@@ -40,14 +40,18 @@ public class Main {
                 " ‾‾‾‾‾‾‾    ‾‾‾‾‾‾‾ \n" +
                 "Here we go...\n" +
                 "--------------------------------------\n");
-
-        int currentPlayerScore = 0;
-        currentPlayerScore = doPlayerRound(0);
-        if (currentPlayerScore == 0) {
-            totalPlayerScore = 0;
-            System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
-        } else {
-            totalPlayerScore += currentPlayerScore;
+        while (ifWinner == false){
+            int currentPlayerScore = 0;
+            currentPlayerScore = doPlayerRound(0);
+            if (currentPlayerScore == 0) {
+                totalPlayerScore = 0;
+                System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
+            } else {
+                totalPlayerScore += currentPlayerScore;
+                System.out.println("Staying");
+                System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
+            }
+            ifWinner = checkWinCondition(totalPlayerScore, aiScore);
         }
 
     }
@@ -70,7 +74,7 @@ public class Main {
 
         if (rollAgain) {
             System.out.println("Doubles! Roll again!");
-            doPlayerRound(currentScore);
+            return currentScore; //fix the doubles
         }
 
         if (twoDice.hasSingleOne()) {
@@ -79,16 +83,42 @@ public class Main {
             currentScore = 0;
             return currentScore; //if 0 turn player score to zero
         }
+        String userResponse = processUserResponse(currentScore);
+        userResponse = userResponse.toLowerCase();
+        char[] userResponseArray = userResponse.toCharArray();
+        char newUserResponse = userResponseArray[0];
 
+        if (newUserResponse=='y'){
+            doPlayerRound(0);
+        }
+        else if (newUserResponse=='n'){
+            return currentScore;
+        }
+        else {
+            while (userResponse != "y" && userResponse != "n") {
+                System.out.println("Sorry did not recognize your response");
+                userResponse = processUserResponse(currentScore);
+             }
+        }
+        return currentScore;
+    }
+
+    public static String processUserResponse(int currentScore){
         System.out.println("Roll Again? (current score is: " + currentScore + ") Enter 'y' for yes 'n' for no:");
         Scanner keyboard = new Scanner(System.in);
         String userResponse = keyboard.next();
-        if (userResponse != "y" && userResponse != "n") {
-            System.out.println("Sorry did not recognize your response");
-        }
-
-        return currentScore;
+        return userResponse;
     }
+
+    public static boolean checkWinCondition(int totalPlayerScore, int aiScore){
+        if ((totalPlayerScore>=60)||(aiScore>=60)){
+            return true;
+        }
+        return false;
+
+    }
+
+
 
 
 
