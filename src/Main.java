@@ -13,13 +13,13 @@ public class Main {
         //for new input. For example, an entry of “Yo” is treated as “yes”, while an entry of “eyes” would
         //ask the user for new input.
         System.out.println("Hello world!");
-        char[][] dice = {{' ', '＿', '＿', '＿', '＿', ' ', ' ', ' '},
-                {'|', ' ', 'o', ' ', ' ', 'o', ' ', '|'},
+        char[][] sixDice = {{' ', '＿', '＿', '＿', '＿', ' ', ' ', ' '},
+                {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
                 {'|', ' ', 'o', ' ', ' ', 'o', ' ', '|'},
                 {'|', ' ', 'o', ' ', ' ', 'o', ' ', '|'},
                 {' ', '‾', '‾', '‾', '‾', '‾', '‾', ' '}};
 
-        printDice(dice);
+        printDice(sixDice);
     }
 
 
