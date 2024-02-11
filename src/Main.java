@@ -48,17 +48,19 @@ public class Main {
                 {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
                 {'|', ' ', 'o', ' ', ' ', ' ' , 'o', ' ', '|'},
                 {' ', '‾', '‾', '‾', '‾', '‾', '‾','‾',' '}};
-        printTwoDice(oneDice, sixDice);
-        printDice(oneDice);
-        printDice(two2Dice);
-        printDice(threeDice);
-        printDice(fourDice);
-        printDice(fiveDice);
-        printDice(sixDice);
+//        printTwoDice(oneDice, sixDice);
+//        printDice(oneDice);
+//        printDice(two2Dice);
+//        printDice(threeDice);
+//        printDice(fourDice);
+//        printDice(fiveDice);
+//        printDice(sixDice);
 
 
         TwoDice twoDice = new TwoDice();
         twoDice.makeDieAsArray();
+        System.out.println(twoDice.toString());
+//        System.out.println(twoDice.toString());
     }
 
 
