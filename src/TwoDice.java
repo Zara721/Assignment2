@@ -25,6 +25,10 @@ public class TwoDice {
     public TwoDice() {
 
     }
+
+    /**
+     * create the representation of two random dice in the form of an array
+     */
     public void makeDieAsArray() {
         //make two die from an array
         //choose 2 random numbers
@@ -37,6 +41,11 @@ public class TwoDice {
 
     }
 
+    /**
+     * a method that updates a die array with a certain amount of dots
+     * @param num the number of dots to add to dice
+     * @param diceArray the dice array that needs to be updated with dots
+     */
     public void addDotsToDice(int num, char[][] diceArray) {
         if (num == 1) {
             convertCoordsToDice(oneDot, diceArray);
@@ -53,6 +62,11 @@ public class TwoDice {
         }
     }
 
+    /**
+     * a method that updates dice with the correct representation with the coordinates of the dots to add
+     * @param coordsArray a two-dimensional list with the coordinates for the associated dice face
+     * @param diceArray the dice array that needs to be updated with dots
+     */
     public void convertCoordsToDice(int[][] coordsArray, char[][] diceArray) {
         for (int[] coords: coordsArray) {
             int xCoord = coords[0];
@@ -61,6 +75,10 @@ public class TwoDice {
         }
     }
 
+    /**
+     * a method that stores the two dice as a singular string
+     * @return the string representation of the two dice
+     */
     public String toString() {
         String stringTwoDice = "";
         for (int row = 0; row < 5; row++) {
@@ -76,6 +94,9 @@ public class TwoDice {
         return stringTwoDice;
     }
 
+    /**
+     * a method that resets the dice to a blank state and calls makeDieAsArray() to roll for new numbers
+     */
     public void roll() {
         diceArray1 = new char[][]{{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
                 {'|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
@@ -91,10 +112,18 @@ public class TwoDice {
 
     }
 
+    /**
+     * get the total value of the two die
+     * @return the total value of the two die
+     */
     public int getValue() {
         return diceNum1 + diceNum2;
     }
 
+    /**
+     * checks if two doubles have been rolled
+     * @return true exactly when the dice contains doubles and false otherwise
+     */
     public boolean isDoubles() {
         if (diceNum1==diceNum2){
             return true;
@@ -102,8 +131,10 @@ public class TwoDice {
         return false;
     }
 
-    //that returns true exactly when one of the dice has
-    //a one, but false when both dice have a one and false when neither dice has a one.
+    /**
+     * checks if the dice pair has a single one
+     * @return  true exactly when one of the dice has a one, but false when both dice have a one and false when neither dice has a one
+     */
     public boolean hasSingleOne() {
         if ((diceNum1 == 1 && diceNum2!=1)||(diceNum2 == 1 && diceNum1!=1)){
             return true;
