@@ -19,7 +19,7 @@ public class Main {
 
 
     public static void startGame() {
-        String turn = "player";
+        boolean isPlayerTurn = true;
         int totalPlayerScore = 0;
         int aiScore = 0;
         boolean ifWinner = false;
@@ -41,15 +41,32 @@ public class Main {
                 "Here we go...\n" +
                 "--------------------------------------\n");
         while (ifWinner == false){
-            int currentPlayerScore = 0;
-            currentPlayerScore = doPlayerRound(0);
-            if (currentPlayerScore == 0) {
-                totalPlayerScore = 0;
-                System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
-            } else {
-                totalPlayerScore += currentPlayerScore;
-                System.out.println("Staying");
-                System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
+            int currentScore = 0;
+            if(isPlayerTurn){
+                System.out.println("Your turn");
+                currentScore = doPlayerRound(0);
+                if (currentScore == 0) {
+                    totalPlayerScore = 0;
+                    System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
+                } else {
+                    totalPlayerScore += currentScore;
+                    System.out.println("Staying");
+                    System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
+                }
+            }
+            else {
+                System.out.println("Computer turn");
+                currentScore = doAiRound(0);
+                if (currentScore == 0) {
+                    aiScore = 0;
+                    System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
+                } else {
+                    aiScore += currentScore;
+                    System.out.println("Staying");
+                    System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
+                }
+                isPlayerTurn =true;
+
             }
             ifWinner = checkWinCondition(totalPlayerScore, aiScore);
         }
@@ -68,13 +85,12 @@ public class Main {
             currentScore += twoDice.getValue();
         }
 
-        System.out.println("Your turn");
         System.out.println("Rolling...");
         System.out.println(twoDice.toString());
 
         if (rollAgain) {
             System.out.println("Doubles! Roll again!");
-            return currentScore; //fix the doubles
+            doPlayerRound(currentScore);
         }
 
         if (twoDice.hasSingleOne()) {
@@ -117,6 +133,53 @@ public class Main {
         return false;
 
     }
+
+    public static int doAiRound(int currentScore) {
+        TwoDice twoDice = new TwoDice();
+        boolean rollAgain = false;
+
+        twoDice.roll();
+        if (twoDice.isDoubles()) {
+            rollAgain = true;
+            currentScore += twoDice.getValue() * 2;
+        } else {
+            currentScore += twoDice.getValue();
+        }
+
+        System.out.println("Rolling...");
+        System.out.println(twoDice.toString());
+
+        if (rollAgain) {
+            System.out.println("Doubles! Roll again!");
+            doPlayerRound(currentScore);
+        }
+
+        if (twoDice.hasSingleOne()) {
+            System.out.println("OH NO...You lost it all!");
+            System.out.println("You lost: " + currentScore);
+            currentScore = 0;
+            return currentScore; //if 0 turn player score to zero
+        }
+        String userResponse = processUserResponse(currentScore);
+        userResponse = userResponse.toLowerCase();
+        char[] userResponseArray = userResponse.toCharArray();
+        char newUserResponse = userResponseArray[0];
+
+        if (newUserResponse=='y'){
+            doPlayerRound(0);
+        }
+        else if (newUserResponse=='n'){
+            return currentScore;
+        }
+        else {
+            while (userResponse != "y" && userResponse != "n") {
+                System.out.println("Sorry did not recognize your response");
+                userResponse = processUserResponse(currentScore);
+            }
+        }
+        return currentScore;
+    }
+
 
 
 
