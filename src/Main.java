@@ -1,3 +1,12 @@
+/*
+Class: AUCSC 112
+Group members: Zara Ezeasor, Camila Peri
+ID Numbers: 1828118, 18382782
+Due Date: February 13, 2024
+Assignment 2: Dice Game
+Summary: A dice game where the player plays against the computer to see who can get to 60 points
+*/
+
 import java.util.Scanner;
 import java.util.Random;
 
