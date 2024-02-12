@@ -1,19 +1,11 @@
 import java.util.Scanner;
 import java.util.Random;
+
 public class Main {
     public static void main(String[] args) {
-        //You should write the
-        //code to control the turns, keep track of overall scores, and determine an actual winner. Print
-        //appropriate information as the game progresses, including the total score lost (if lost), when
-        //doubles occur, whose turn it is, etc. Do not use any “global” variables, that is, variables declared
-        //in the spot where instance variables are declared in an ADT. This class should only need local
-        //variables.
-        //Handle inputs that may not be simply a ‘y’ or an ‘n’. When you read a line, and if the first char is
-        //a ‘y’, ‘Y’, ‘n’ or ‘N’ then continue and assume the appropriate response. Otherwise, ask the user
-        //for new input. For example, an entry of “Yo” is treated as “yes”, while an entry of “eyes” would
-        //ask the user for new input.
-
-        //do the doubles stack, so if I roll a double after a double do I get to roll again, also do I only roll again once
+        //questions; do the doubles stack, so if I roll a double after a double do I get to roll again,
+        // also do I only roll again once, and what counts as a round if someone gets a double and then rolls a single one
+        //do they also lose the points from the previous double
         startGame();
     }
 
@@ -23,120 +15,90 @@ public class Main {
         int totalPlayerScore = 0;
         int aiScore = 0;
         boolean ifWinner = false;
-        System.out.println("===================================\n" +
-                " The Dice Game\n" +
-                " How Much Can You Afford to Lose?\n" +
-                "===================================\n" +
-                "Roll the dice, accumulating the total to add to your score.\n" +
-                "Hit 60 before the computer and you win!\n" +
-                "If you roll doubles, you get double the value!\n" +
-                " And you must roll again.\n" +
-                "If you roll a one - you are done and lose the current round’s total,\n" +
-                " unless it's snake eyes!\n" +
-                " _______    _______ \n" +
-                "|       |  |       |\n" +
-                "|   o   |  |   o   |\n" +
-                "|       |  |       |\n" +
-                " ‾‾‾‾‾‾‾    ‾‾‾‾‾‾‾ \n" +
-                "Here we go...\n" +
-                "--------------------------------------\n");
-        while (ifWinner == false){
+        System.out.println("""
+                ===================================
+                          ~ The Dice Game ~
+                  How Much Can You Afford to Lose?
+                ===================================
+                Roll the dice, accumulating the total to add to your score.
+                Hit 60 before the computer and you win!
+                If you roll doubles, you get double the value!
+                 And you must roll again.
+                If you roll a one - you are done and lose the current round’s total,
+                 unless it's snake eyes!
+                 _______    _______\s
+                |       |  |       |
+                |   o   |  |   o   |
+                |       |  |       |
+                 ‾‾‾‾‾‾‾    ‾‾‾‾‾‾‾\s
+                Here we go...
+                --------------------------------------
+                """);
+        while (!ifWinner){
+            int[] roundStatus;
             int currentScore = 0;
             if(isPlayerTurn){
                 System.out.println("Your turn");
-                currentScore = doPlayerRound(0);
-                if (currentScore == 0) {
-                    totalPlayerScore = 0;
-                    System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
-                } else {
-                    totalPlayerScore += currentScore;
-                    System.out.println("Staying");
-                    System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
-                }
+                roundStatus = doRound("Player");
+                currentScore = roundStatus[0];
+                totalPlayerScore += currentScore;
+                isPlayerTurn = startTurn("Player", roundStatus, totalPlayerScore, aiScore);
             }
             else {
                 System.out.println("Computer turn");
-                currentScore = doAiRound(0);
-                if (currentScore == 0) {
-                    aiScore = 0;
-                    System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
-                } else {
-                    aiScore += currentScore;
-                    System.out.println("Staying");
-                    System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
-                }
-                isPlayerTurn =true;
-
+                roundStatus = doRound("Computer");
+                currentScore = roundStatus[0];
+                aiScore += currentScore;
+                isPlayerTurn = startTurn("Computer", roundStatus, totalPlayerScore, aiScore);
             }
             ifWinner = checkWinCondition(totalPlayerScore, aiScore);
         }
 
     }
 
-    public static int doPlayerRound(int currentScore) {
-        TwoDice twoDice = new TwoDice();
-        boolean rollAgain = false;
-
-        twoDice.roll();
-        if (twoDice.isDoubles()) {
-            rollAgain = true;
-            currentScore += twoDice.getValue() * 2;
-        } else {
-            currentScore += twoDice.getValue();
+    public static boolean startTurn(String turn, int[] roundStatus, int totalPlayerScore, int aiScore) {
+        boolean isPlayerTurn = false;
+        int currentScore = roundStatus[0];
+        int isDoubles = roundStatus[1];
+        if (currentScore == 0) {
+            System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
+            System.out.println("--------------------------------------");
         }
-
-        System.out.println("Rolling...");
-        System.out.println(twoDice.toString());
-
-        if (rollAgain) {
-            System.out.println("Doubles! Roll again!");
-            doPlayerRound(currentScore);
-        }
-
-        if (twoDice.hasSingleOne()) {
-            System.out.println("OH NO...You lost it all!");
-            System.out.println("You lost: " + currentScore);
-            currentScore = 0;
-            return currentScore; //if 0 turn player score to zero
-        }
-        String userResponse = processUserResponse(currentScore);
-        userResponse = userResponse.toLowerCase();
-        char[] userResponseArray = userResponse.toCharArray();
-        char newUserResponse = userResponseArray[0];
-
-        if (newUserResponse=='y'){
-            doPlayerRound(0);
-        }
-        else if (newUserResponse=='n'){
-            return currentScore;
+        else if (isDoubles == 1) {
+            isPlayerTurn = true;
+            return isPlayerTurn;
         }
         else {
-            while (userResponse != "y" && userResponse != "n") {
-                System.out.println("Sorry did not recognize your response");
-                userResponse = processUserResponse(currentScore);
-             }
+            totalPlayerScore += currentScore;
+            System.out.println("Staying");
+            System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
+            System.out.println("--------------------------------------");
         }
-        return currentScore;
-    }
-
-    public static String processUserResponse(int currentScore){
-        System.out.println("Roll Again? (current score is: " + currentScore + ") Enter 'y' for yes 'n' for no:");
-        Scanner keyboard = new Scanner(System.in);
-        String userResponse = keyboard.next();
-        return userResponse;
+        if (turn.equals("Computer")) {
+            isPlayerTurn = true;
+        }
+        return isPlayerTurn;
     }
 
     public static boolean checkWinCondition(int totalPlayerScore, int aiScore){
+        String winner = "You";
+        if (aiScore > totalPlayerScore) {
+            winner = "Computer";
+        }
         if ((totalPlayerScore>=60)||(aiScore>=60)){
+            System.out.println("TaTaTah Drum rollllllll");
+            System.out.println("The winner is: " + winner);
             return true;
         }
         return false;
 
     }
 
-    public static int doAiRound(int currentScore) {
+    public static int[] doRound(String turn) {
         TwoDice twoDice = new TwoDice();
         boolean rollAgain = false;
+        int isDoubles = 0;
+        int currentScore = 0;
 
         twoDice.roll();
         if (twoDice.isDoubles()) {
@@ -151,25 +113,46 @@ public class Main {
 
         if (rollAgain) {
             System.out.println("Doubles! Roll again!");
-            doPlayerRound(currentScore);
+            isDoubles = 1;
+            return new int[]{currentScore, isDoubles};
         }
 
         if (twoDice.hasSingleOne()) {
             System.out.println("OH NO...You lost it all!");
             System.out.println("You lost: " + currentScore);
             currentScore = 0;
-            return currentScore; //if 0 turn player score to zero
+            return new int[]{currentScore, isDoubles}; //if 0 turn player score to zero
         }
+
+        char userResponse = 'y';
+        if (turn.equals("Player")){
+            userResponse = playerRollAgain(currentScore);
+        } else {
+            userResponse = aiRollAgain();
+        }
+
+        if (userResponse == 'n') {
+            return new int[]{currentScore, isDoubles};
+        } else {
+            doRound(turn);
+        }
+
+
+
+        return new int[]{currentScore, isDoubles};
+    }
+
+    public static char playerRollAgain(int currentScore){
+
         String userResponse = processUserResponse(currentScore);
         userResponse = userResponse.toLowerCase();
         char[] userResponseArray = userResponse.toCharArray();
         char newUserResponse = userResponseArray[0];
-
         if (newUserResponse=='y'){
-            doPlayerRound(0);
+            return 'y';
         }
         else if (newUserResponse=='n'){
-            return currentScore;
+            return 'n';
         }
         else {
             while (userResponse != "y" && userResponse != "n") {
@@ -177,16 +160,22 @@ public class Main {
                 userResponse = processUserResponse(currentScore);
             }
         }
-        return currentScore;
+        return newUserResponse;
     }
 
+    public static char aiRollAgain(){
+        Random random = new Random();
+        int randomChoiceNumber = random.nextInt(1, 4);
+        if (randomChoiceNumber == 1) {
+            return 'y';
+        } else {
+            return 'n';
+        }
+    }
 
-
-
-
-
-
-
+    public static String processUserResponse(int currentScore){
+        System.out.println("Roll Again? (current score is: " + currentScore + ") Enter 'y' for yes 'n' for no:");
+        Scanner keyboard = new Scanner(System.in);
+        return keyboard.next(); //return user response
+    }
 }
-
-

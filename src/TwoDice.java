@@ -1,5 +1,4 @@
 import java.util.Random;
-
 public class TwoDice {
     private char[][] diceArray1 = {{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
             {'|', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', '|'},
@@ -125,10 +124,7 @@ public class TwoDice {
      * @return true exactly when the dice contains doubles and false otherwise
      */
     public boolean isDoubles() {
-        if (diceNum1==diceNum2){
-            return true;
-        }
-        return false;
+        return diceNum1 == diceNum2;
     }
 
     /**
