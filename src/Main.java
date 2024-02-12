@@ -2,6 +2,10 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class Main {
+
+    /**
+     * main of the program that starts the game
+     */
     public static void main(String[] args) {
         //questions; do the doubles stack, so if I roll a double after a double do I get to roll again,
         // also do I only roll again once, and what counts as a round if someone gets a double and then rolls a single one
@@ -9,7 +13,9 @@ public class Main {
         startGame();
     }
 
-
+    /**
+     * initializes the game and handles the turn logic until a winner is determined
+     */
     public static void startGame() {
         boolean isPlayerTurn = true;
         int totalPlayerScore = 0;
@@ -56,6 +62,15 @@ public class Main {
 
     }
 
+    /**
+     * method that handles the player's turn, handling the decision to roll again or stay
+     *
+     * @param turn the string representing whose turn it is ("Player" or "Computer")
+     * @param roundStatus an array containing the current score and whether it's a doubles
+     * @param totalPlayerScore the player's total score
+     * @param aiScore the computer's total score
+     * @return true if it's the player's turn again, false otherwise
+     */
     public static boolean startTurn(String turn, int[] roundStatus, int totalPlayerScore, int aiScore) {
         boolean isPlayerTurn = false;
         int currentScore = roundStatus[0];
@@ -80,6 +95,13 @@ public class Main {
         return isPlayerTurn;
     }
 
+    /**
+     * checks the win condition based on the scores of the player and the computer
+     *
+     * @param totalPlayerScore the player's total score
+     * @param aiScore the computer's total score
+     * @return true if a winner is determined, false otherwise
+     */
     public static boolean checkWinCondition(int totalPlayerScore, int aiScore){
         String winner = "You";
         if (aiScore > totalPlayerScore) {
@@ -94,6 +116,12 @@ public class Main {
 
     }
 
+    /**
+     * executes a round of the dice game for a given player or the computer
+     *
+     * @param turn the string representing whose turn it is ("Player" or "Computer")
+     * @return an array containing the current score and whether it's a doubles
+     */
     public static int[] doRound(String turn) {
         TwoDice twoDice = new TwoDice();
         boolean rollAgain = false;
@@ -142,6 +170,12 @@ public class Main {
         return new int[]{currentScore, isDoubles};
     }
 
+    /**
+     * asks the player if they want to roll again during their turn
+     *
+     * @param currentScore the score accumulated in the current round
+     * @return 'y' if the player wants to roll again, 'n' otherwise
+     */
     public static char playerRollAgain(int currentScore){
 
         String userResponse = processUserResponse(currentScore);
@@ -163,6 +197,11 @@ public class Main {
         return newUserResponse;
     }
 
+    /**
+     * decides whether the computer will roll again during its turn
+     *
+     * @return 'y' if the computer will roll again, 'n' otherwise
+     */
     public static char aiRollAgain(){
         Random random = new Random();
         int randomChoiceNumber = random.nextInt(1, 4);
@@ -173,6 +212,12 @@ public class Main {
         }
     }
 
+    /**
+     * prompts the user for input on whether they wish to roll again
+     *
+     * @param currentScore the score accumulated in the current round
+     * @return the user's response as a string
+     */
     public static String processUserResponse(int currentScore){
         System.out.println("Roll Again? (current score is: " + currentScore + ") Enter 'y' for yes 'n' for no:");
         Scanner keyboard = new Scanner(System.in);
