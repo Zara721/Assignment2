@@ -21,8 +21,11 @@ public class TwoDice {
     private int diceNum1;
     private int diceNum2;
 
+    /**
+     * a constructor that initializes the dice with a random roll
+     */
     public TwoDice() {
-
+        makeDieAsArray();
     }
 
     /**

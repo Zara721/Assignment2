@@ -36,7 +36,7 @@ public class Main {
                 """);
         while (!ifWinner){
             int[] roundStatus;
-            int currentScore = 0;
+            int currentScore;
             if(isPlayerTurn){
                 System.out.println("Your turn");
                 roundStatus = doRound("Player");
