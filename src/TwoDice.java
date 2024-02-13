@@ -22,10 +22,19 @@ public class TwoDice {
     private int diceNum2;
 
     /**
-     * a constructor that initializes two dice with random numbers
+     * a constructor that initializes two dice with two ones
      */
     public TwoDice() {
-        makeDieAsArray();
+        diceArray1 = new char[][]{{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
+                {'|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                {'|', ' ', ' ', ' ', 'o', ' ', ' ', ' ', '|'},
+                {'|', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '|'},
+                {' ', '‾', '‾', '‾', '‾', '‾', '‾', '‾', ' '}};
+        diceArray2 = new char[][]{{' ', '_', '_', '_', '_', '_', '_', '_', ' '},
+                {'|', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', '|'},
+                {'|', ' ', ' ', ' ', 'o', ' ' , ' ', ' ', '|'},
+                {'|', ' ', ' ', ' ', ' ', ' ' , ' ', ' ', '|'},
+                {' ', '‾', '‾', '‾', '‾', '‾', '‾','‾',' '}};
     }
 
     /**

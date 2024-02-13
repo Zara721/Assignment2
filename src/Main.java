@@ -6,8 +6,6 @@ Due Date: February 13, 2024
 Assignment 2: Dice Game
 Summary: A dice game where the player plays against the computer to see who can get to 60 points
 */
-
-import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -17,9 +15,6 @@ public class Main {
      * main of the program that starts the game
      */
     public static void main(String[] args) {
-        //questions; do the doubles stack, so if I roll a double after a double do I get to roll again,
-        // also do I only roll again once, and what counts as a round if someone gets a double and then rolls a single one
-        //do they also lose the points from the previous double
         startGame();
     }
 
@@ -27,6 +22,7 @@ public class Main {
      * initializes the game and handles the turn logic until a winner is determined
      */
     public static void startGame() {
+        TwoDice twoDice = new TwoDice();
         boolean isPlayerTurn = true;
         int totalPlayerScore = 0;
         int aiScore = 0;
@@ -42,31 +38,27 @@ public class Main {
                  And you must roll again.
                 If you roll a one - you are done and lose the current round’s total,
                  unless it's snake eyes!
-                 _______    _______\s
-                |       |  |       |
-                |   o   |  |   o   |
-                |       |  |       |
-                 ‾‾‾‾‾‾‾    ‾‾‾‾‾‾‾\s
-                Here we go...
-                --------------------------------------
                 """);
+        System.out.println(twoDice.toString());
+        System.out.println("""
+        Here we go...
+        --------------------------------------
+        """);
+
         while (!ifWinner){
-            int[] roundStatus;
             int currentScore;
             if(isPlayerTurn){
                 System.out.println("Your turn");
-                roundStatus = doRound("Player");
+                currentScore = doRound("Player",0);
 //                System.out.println("Round status: " + Arrays.toString(roundStatus));
-                currentScore = roundStatus[0];
                 totalPlayerScore += currentScore;
-                isPlayerTurn = nextTurn("Player", roundStatus, totalPlayerScore, aiScore);
+                isPlayerTurn = nextTurn("Player", currentScore, totalPlayerScore, aiScore);
             }
             else {
                 System.out.println("Computer turn");
-                roundStatus = doRound("Computer");
-                currentScore = roundStatus[0];
+                currentScore = doRound("Computer",0);
                 aiScore += currentScore;
-                isPlayerTurn = nextTurn("Computer", roundStatus, totalPlayerScore, aiScore);
+                isPlayerTurn = nextTurn("Computer", currentScore, totalPlayerScore, aiScore);
             }
             ifWinner = checkWinCondition(totalPlayerScore, aiScore);
         }
@@ -77,31 +69,18 @@ public class Main {
      * method that handles the player's turn, handling the decision to roll again or stay
      *
      * @param turn the string representing whose turn it is ("Player" or "Computer")
-     * @param roundStatus an array containing the current score and whether it's a doubles
+     * @param currentScore an int that has the current score
      * @param totalPlayerScore the player's total score
      * @param aiScore the computer's total score
      * @return true if it's the player's turn again, false otherwise
      */
-    public static boolean nextTurn(String turn, int[] roundStatus, int totalPlayerScore, int aiScore) {
+    public static boolean nextTurn(String turn, int currentScore, int totalPlayerScore, int aiScore) {
         boolean isPlayerTurn = false;
-        int currentScore = roundStatus[0];
-        int isDoubles = roundStatus[1];
 //        System.out.println("Is it a double, " + isDoubles);
         if (currentScore == 0) {
             System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
             System.out.println("--------------------------------------");
-        }
-        else if (isDoubles == 1) {
-//            System.out.println("Itsa Doubles, " + isDoubles);
-            if (turn.equals("Computer")) {
-                isPlayerTurn = false;
-            } else {
-                isPlayerTurn = true;
-            }
-            return isPlayerTurn;
-            }
-        else {
-            totalPlayerScore += currentScore;
+        }  else {
             System.out.println("Staying");
             System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
             System.out.println("--------------------------------------");
@@ -139,18 +118,18 @@ public class Main {
      * @param turn the string representing whose turn it is ("Player" or "Computer")
      * @return an array containing the current score and whether it's a doubles
      */
-    public static int[] doRound(String turn) {
+    public static int doRound(String turn, int currentScore) {
         TwoDice twoDice = new TwoDice();
         boolean rollAgain = false;
-        int isDoubles = 0;
-        int currentScore = 0;
+        int roundScore = 0;
+
 
         twoDice.roll();
         if (twoDice.isDoubles()) {
             rollAgain = true;
-            currentScore += twoDice.getValue() * 2;
+            roundScore += twoDice.getValue() * 2;
         } else {
-            currentScore += twoDice.getValue();
+            roundScore += twoDice.getValue();
         }
 
         System.out.println("Rolling...");
@@ -158,31 +137,31 @@ public class Main {
 
         if (rollAgain) {
             System.out.println("Doubles! Roll again!");
-            isDoubles = 1;
-            return new int[]{currentScore, isDoubles};
+            currentScore += roundScore;
+            return doRound(turn, currentScore);
         }
 
         if (twoDice.hasSingleOne()) {
+            currentScore += roundScore;
             System.out.println("OH NO...You lost it all!");
             System.out.println("You lost: " + currentScore);
             currentScore = 0;
-            return new int[]{currentScore, isDoubles}; //if 0 turn player score to zero
+            return currentScore;
         }
 
         char userResponse = 'y';
         if (turn.equals("Player")){
-            userResponse = playerRollAgain(currentScore);
+            userResponse = playerRollAgain(currentScore + roundScore);
         } else {
             userResponse = aiRollAgain();
         }
 
         if (userResponse == 'n') {
-            return new int[]{currentScore, isDoubles};
+            currentScore += roundScore;
+            return currentScore;
         } else {
-            return doRound(turn);
+            return doRound(turn, currentScore);
         }
-
-//        return new int[]{currentScore, isDoubles};
     }
 
     /**
