@@ -93,9 +93,13 @@ public class Main {
         }
         else if (isDoubles == 1) {
 //            System.out.println("Itsa Doubles, " + isDoubles);
-            isPlayerTurn = true;
+            if (turn.equals("Computer")) {
+                isPlayerTurn = false;
+            } else {
+                isPlayerTurn = true;
+            }
             return isPlayerTurn;
-        }
+            }
         else {
             totalPlayerScore += currentScore;
             System.out.println("Staying");
