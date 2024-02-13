@@ -7,6 +7,7 @@ Assignment 2: Dice Game
 Summary: A dice game where the player plays against the computer to see who can get to 60 points
 */
 
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Random;
 
@@ -55,6 +56,7 @@ public class Main {
             if(isPlayerTurn){
                 System.out.println("Your turn");
                 roundStatus = doRound("Player");
+//                System.out.println("Round status: " + Arrays.toString(roundStatus));
                 currentScore = roundStatus[0];
                 totalPlayerScore += currentScore;
                 isPlayerTurn = nextTurn("Player", roundStatus, totalPlayerScore, aiScore);
@@ -84,11 +86,13 @@ public class Main {
         boolean isPlayerTurn = false;
         int currentScore = roundStatus[0];
         int isDoubles = roundStatus[1];
+//        System.out.println("Is it a double, " + isDoubles);
         if (currentScore == 0) {
             System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
             System.out.println("--------------------------------------");
         }
         else if (isDoubles == 1) {
+//            System.out.println("Itsa Doubles, " + isDoubles);
             isPlayerTurn = true;
             return isPlayerTurn;
         }
@@ -171,10 +175,10 @@ public class Main {
         if (userResponse == 'n') {
             return new int[]{currentScore, isDoubles};
         } else {
-            doRound(turn);
+            return doRound(turn);
         }
 
-        return new int[]{currentScore, isDoubles};
+//        return new int[]{currentScore, isDoubles};
     }
 
     /**
