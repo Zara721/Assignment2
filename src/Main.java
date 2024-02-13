@@ -27,6 +27,7 @@ public class Main {
         int totalPlayerScore = 0;
         int aiScore = 0;
         boolean ifWinner = false;
+        //a game header
         System.out.println("""
                 ===================================
                           ~ The Dice Game ~
@@ -78,10 +79,12 @@ public class Main {
         boolean isPlayerTurn = false;
 //        System.out.println("Is it a double, " + isDoubles);
         if (currentScore == 0) {
+            //displays the total score of the player and computer
             System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
             System.out.println("--------------------------------------");
         }  else {
             System.out.println("Staying");
+            //displays the total score of the player and computer
             System.out.println("Score: Player " + totalPlayerScore + " Computer " + aiScore);
             System.out.println("--------------------------------------");
         }
@@ -116,17 +119,18 @@ public class Main {
      * executes a round of the dice game for a given player or the computer
      *
      * @param turn the string representing whose turn it is ("Player" or "Computer")
-     * @return an array containing the current score and whether it's a doubles
+     * @param currentScore an int that has the current score
+     * @return an int containing the current score
      */
     public static int doRound(String turn, int currentScore) {
         TwoDice twoDice = new TwoDice();
         boolean rollAgain = false;
-        int roundScore = 0;
-
+        int roundScore = 0; //score for the current roll only
 
         twoDice.roll();
         if (twoDice.isDoubles()) {
             rollAgain = true;
+            //doubles gets the total times two added to current score
             roundScore += twoDice.getValue() * 2;
         } else {
             roundScore += twoDice.getValue();
@@ -138,13 +142,14 @@ public class Main {
         if (rollAgain) {
             System.out.println("Doubles! Roll again!");
             currentScore += roundScore;
+            //doubles gets to roll again
             return doRound(turn, currentScore);
         }
 
         if (twoDice.hasSingleOne()) {
-            currentScore += roundScore;
             System.out.println("OH NO...You lost it all!");
-            System.out.println("You lost: " + currentScore);
+            System.out.println("You lost: " + currentScore); //shows how much is lost, not including single one roll
+            //single round loses all the points for that round
             currentScore = 0;
             return currentScore;
         }
@@ -157,6 +162,7 @@ public class Main {
         }
 
         if (userResponse == 'n') {
+            // no means staying, which adds the round score to current score
             currentScore += roundScore;
             return currentScore;
         } else {
@@ -173,6 +179,7 @@ public class Main {
     public static char playerRollAgain(int currentScore){
 
         String userResponse = processUserResponse(currentScore);
+        //only registers the first letter of response, and ignores case sensitivity
         userResponse = userResponse.toLowerCase();
         char[] userResponseArray = userResponse.toCharArray();
         char newUserResponse = userResponseArray[0];
@@ -198,11 +205,13 @@ public class Main {
      */
     public static char aiRollAgain(){
         Random random = new Random();
+        // use random numbers to determine computers choice
         int randomChoiceNumber = random.nextInt(1, 4);
+        // 2/3 of the time the computer chooses to roll again
         if (randomChoiceNumber == 1) {
-            return 'y';
-        } else {
             return 'n';
+        } else {
+            return 'y';
         }
     }
 
