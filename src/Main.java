@@ -57,14 +57,14 @@ public class Main {
                 roundStatus = doRound("Player");
                 currentScore = roundStatus[0];
                 totalPlayerScore += currentScore;
-                isPlayerTurn = startTurn("Player", roundStatus, totalPlayerScore, aiScore);
+                isPlayerTurn = nextTurn("Player", roundStatus, totalPlayerScore, aiScore);
             }
             else {
                 System.out.println("Computer turn");
                 roundStatus = doRound("Computer");
                 currentScore = roundStatus[0];
                 aiScore += currentScore;
-                isPlayerTurn = startTurn("Computer", roundStatus, totalPlayerScore, aiScore);
+                isPlayerTurn = nextTurn("Computer", roundStatus, totalPlayerScore, aiScore);
             }
             ifWinner = checkWinCondition(totalPlayerScore, aiScore);
         }
@@ -80,7 +80,7 @@ public class Main {
      * @param aiScore the computer's total score
      * @return true if it's the player's turn again, false otherwise
      */
-    public static boolean startTurn(String turn, int[] roundStatus, int totalPlayerScore, int aiScore) {
+    public static boolean nextTurn(String turn, int[] roundStatus, int totalPlayerScore, int aiScore) {
         boolean isPlayerTurn = false;
         int currentScore = roundStatus[0];
         int isDoubles = roundStatus[1];
@@ -173,8 +173,6 @@ public class Main {
         } else {
             doRound(turn);
         }
-
-
 
         return new int[]{currentScore, isDoubles};
     }
